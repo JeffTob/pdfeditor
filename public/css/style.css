@@ -1,0 +1,419 @@
+body,html {
+  height: 100%;
+  width: 100%; /* Full width by default */
+  margin: 0;
+  display: flex;
+  background-color: #f0f0f0;
+  overflow: hidden; /* Prevents unwanted scrolling */
+  transition: width 0.3s ease; /* Smooth transition for width change */
+ 
+}
+
+  /* When AI panel is shown, reduce the width of the viewer container */
+  body.shrink, html.shrink {
+    width: 86%;
+}
+  
+  #sidebar {
+    position: relative; /* Needed for absolute positioning inside */
+    width: 250px; /* Fixed width for the sidebar */
+    background: #f9f9f9;
+    padding: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5); /* Optional: adds shadow for better visibility */
+    height: 100%;
+    position: fixed; /* Keeps the sidebar stationary */
+    left: 0; /* Aligns the sidebar to the left edge */
+    font-size: 12px;
+    color: #fff;
+    background-color: #e9e9e9;
+  }
+
+  #sidebar-ai {
+    position: relative; /* Needed for absolute positioning inside */
+    width: 450px; /* Fixed width for the sidebar */
+    background: #f9f9f9;
+    padding: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5); /* Optional: adds shadow for better visibility */
+    height: 100%;
+    position: fixed; /* Keeps the sidebar stationary */
+    right: 0px; /* Aligns the sidebar to the left edge */
+    font-size: 12px;
+    color: #fff;
+    background-color: #ffffff;
+  }
+  
+  .sidebar-footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    padding-bottom: 10px;
+    padding-left: 0px;
+    color: #000000;
+    text-align: left;
+    font-size: 14px;
+    font-family: 'Courier New', Courier, monospace;
+  }
+
+  .sidebar-footer-ai {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: #000000;
+    text-align: left;
+    font-size: 14px;
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #eeeeee;; /* Green for the rest of the bar */ 
+    font-family : 'Myriad Pro', sans-serif;
+  }
+  
+  .logout-button {
+    position: relative;
+    bottom: 0;
+    width: 250px; 
+  }
+
+ /* Viewer Container */
+#viewer_container {  
+  background-image: url('/image/dragdrop.jpg'); /* Background image */
+  background-repeat: no-repeat; /* Prevents the background from repeating */
+  background-position: center; /* Centers the image in the container */
+  background-size: auto; /* Ensures the image fits within the container while keeping its aspect ratio */
+  
+  flex-grow: 1;
+  overflow-y: auto;
+  margin-left: 280px; /* Same as the sidebar width */
+  width: calc(100% - 280px); /* 100% width minus the sidebar width */
+  height: 100%;
+  transition: width 0.3s ease; /* Smooth transition when the width changes */  
+  
+}
+
+/* AI Panel */
+#viewer_container-ai {
+  width: 450px;
+  height: 100%;
+  position: fixed;
+  right: 0;
+  top: 0;
+  background-color: #ffffff;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  
+  /* Hidden initially */
+  transform: translateX(100%);
+  opacity: 0;
+  display: none;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+#viewer_container-ai.show {
+  transform: translateX(0);
+  opacity: 1;
+  display: block;
+}
+
+#viewer_container-aiChat {
+  width: 450px;
+  height: 100%;
+  position: fixed;
+  right: 0;
+  top: 0;
+  background-color: #ffffff;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  
+  /* Hidden initially */
+  transform: translateX(100%);
+  opacity: 0;
+  display: none;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+#viewer_container-aiChat.show {
+  transform: translateX(0);
+  opacity: 1;
+  display: block;
+}
+  
+  #canvas_container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;  
+  }
+  
+  canvas {
+    border: 0px solid black; 
+    width: auto; 
+    height: auto; 
+    margin-bottom: 20px; /* Adds space between each page */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Optional: Adds subtle shadow for depth */
+    max-width: 100%; /* Ensures canvas is responsive and fits within the container */
+  }
+  
+  #navigation_controls, #zoom_controls {
+    text-align: center;
+  }
+  
+  button {
+    margin: 5px;
+  }
+  
+  
+  /* Regular screen CSS */
+  @media screen {
+    #sidebar, #navigation_controls, #zoom_controls {
+        display: block;
+    }
+  }
+  
+  /* Print media CSS */
+  @media print {
+    body * {
+        display: none; /* Hide everything */
+    }
+  
+    #canvas_container, #canvas_container canvas {
+        display: block; /* Only show the canvas container and canvases */
+        width: auto; /* Reset width for printing */
+        max-width: 100%; /* Limit width to the page size */
+        height: auto; /* Adjust height automatically */
+        margin: 0; /* Remove any margins */
+        padding: 0; /* Remove any padding */
+        overflow: visible; /* Ensure canvases are not clipped */
+    }
+  }
+  
+  .modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+  
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%; /* Could be more or less, depending on screen size */
+  }
+  
+  .signature-pad {
+    border: 1px solid #000; /* Visible border to see the actual size of the canvas */
+    width: 100%; /* Avoid using CSS to set width and height if it causes issues */
+    height: 200px; /* Fixed height or using JavaScript to set it directly */
+  }
+  
+  .title-bar {
+    
+    color: #fff;
+    text-align: center;
+    padding: 1px;
+    font-size: 24px;
+    background-color: #09778b; /* Green for the rest of the bar */ 
+    display: flex;
+    align-items: center;
+    }
+    
+    .title-bar-black {
+        width: 100%;
+        background-color: #2f3341; /* Black square at the beginning */
+        padding: 5px 5px; /* Adjust padding as needed */
+        padding-top: 10px;
+        padding-bottom: 10px;
+        margin-right: 0px; /* Space between black square and rest of the title */       
+        align-items: center;
+        border-radius: 5px; /* Rounded corners */
+        font-family : 'Myriad Pro', sans-serif; /*Arial, Helvetica, sans-serif*/
+    }
+  
+    .zoom-button {
+      
+      width: 20%;
+      padding: 10px;
+      margin: 8px 0; /* Space between buttons */
+      background-color: transparent; /* Make background transparent */
+      color: white; /* Text color */
+      border: 1px solid white; /* Add a border if desired */
+      border-radius: 5px; /* Rounded corners */
+      cursor: pointer;
+      font-size: 20px;
+      transition: background-color 0.3s, color 0.3s; /* Smooth transition for hover effects */
+    }
+  
+    .button {
+      display: block;
+      width: 100%;
+      padding: 17px;
+      margin: 8px 0; /* Space between buttons */
+      background-color: #ff8800; /*transparent; /* Make background transparent */
+      color: white; /* Text color */
+      border: 1px solid white; /* Add a border if desired */
+      border-radius: 5px; /* Rounded corners */
+      cursor: pointer;
+      font-size: 20px;
+      transition: background-color 0.3s, color 0.3s; /* Smooth transition for hover effects */
+    }
+
+    .button-ai {
+      display: block;
+      width: 100%;
+      padding: 17px;
+      margin: 8px 0; /* Space between buttons */
+      background-color: transparent; /* Make background transparent */
+      color: rgb(0, 0, 0); /* Text color */
+      border: 1px solid rgb(0, 0, 0); /* Add a border if desired */
+      border-radius: 5px; /* Rounded corners */
+      cursor: pointer;
+      font-size: 20px;
+      transition: background-color 0.3s, color 0.3s; /* Smooth transition for hover effects */
+    }
+  
+    .button:hover {
+      background-color: #e4e294; /* Darker blue on hover */
+      color: black;
+    }
+    .print-button {
+      margin-top: auto; /* Pushes the button to the bottom of the sidebar */
+  }  
+  
+  /* Styles for the overall modal background */
+  .dialog-modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    display: flex; /* Using Flexbox for centering */
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
+  }
+  
+  /* Styles for the content inside the modal */
+  .dialog-modal-content {
+    background-color: #fefefe;
+    margin: auto; /* Aligns automatically in center due to flexbox */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%; /* Adjust width as necessary */
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19); /* Optional: Adds some depth with shadow */
+    animation: animatetop 0.4s; /* Optional: Animation for the modal entry */
+    
+  }
+
+  .dialog-modal-content-ai {
+    background-color: #fefefe;
+    margin: auto; /* Aligns automatically in center due to flexbox */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 100%; /* Adjust width as necessary */
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19); /* Optional: Adds some depth with shadow */
+    animation: animatetop 0.4s; /* Optional: Animation for the modal entry */
+    overflow-y: scroll;
+  }
+  
+  /* Optional: Animation keyframes for the modal to slide in from the top */
+  @keyframes animatetop {
+    from {top: -300px; opacity: 0}
+    to {top: 0; opacity: 1}
+  }
+  
+  .xml-file-name {
+    font-weight: bold;
+    text-align: center;
+    color: yellow;
+    font-size: larger;
+  }
+
+  .checkbox-container {
+    display: flex;
+    align-items: center; /* Center items vertically in the container */
+    margin-top: 10px; /* Adds some space above the checkbox container */
+    margin-bottom: 10px; /* Adds some space below the checkbox container */
+}
+
+.checkbox-container input[type="checkbox"] {
+    margin-right: 5px; /* Space between the checkbox and the label */
+    cursor: pointer; /* Pointer cursor on hover */
+    
+}
+
+.checkbox-container label {
+    cursor: pointer; /* Pointer cursor on hover */
+    color: #fcfcfc; /* Dark grey color for the text */
+    font-size: 16px; /* Set the font size */
+    font-family : 'Myriad Pro', sans-serif; /*Arial, Helvetica, sans-serif*/
+}
+
+.custom-checkbox {
+    width: 20px;  /* Bigger checkbox */
+    height: 20px; /* Bigger checkbox */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    -webkit-appearance: none; /* Necessary for custom styling */
+    -moz-appearance: none; /* Necessary for custom styling */
+    appearance: none; /* Necessary for custom styling */
+    border: 2px solid #d1d1d1; /* Subtle gray border */
+    background-color: #fff; /* White background */
+    transition: background-color 0.2s, border-color 0.2s; /* Smooth transition for color changes */
+}
+
+.custom-checkbox:checked {
+    background-color: #000000; /* Blue background when checked */
+    border-color: #007BFF; /* Blue border when checked */
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="white" d="M20.29 5.29l-8.3 8.29-3.3-3.29a1 1 0 0 0-1.41 0l-2 2a1 1 0 0 0 0 1.41l4 4a1 1 0 0 0 1.41 0l10-10a1 1 0 0 0 0-1.41l-2-2a1 1 0 0 0-1.41 0z"/></svg>'); /* Checkmark icon */
+    background-repeat: no-repeat; /* No repeat for background image */
+    background-position: center; /* Center the checkmark */
+}
+
+
+.title-bar-ai {    
+  color: #ffffff;
+  text-align: center;
+  padding: 1px;
+  font-size: 10px;
+  background-color: #2c3042; /* Green for the rest of the bar */ 
+  display: flex;
+  align-items: center;
+  font-family : 'Myriad Pro', sans-serif;
+  }
+
+  .title-bar-ai-black {
+    width: 100%;
+    background-color: #ffffff; /* Black square at the beginning */
+    padding: 5px 5px; /* Adjust padding as needed */
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-right: 0px; /* Space between black square and rest of the title */       
+    align-items: center;
+    border-radius: 5px; /* Rounded corners */
+    font-family : 'Myriad Pro', sans-serif; /*Arial, Helvetica, sans-serif*/
+}
+
+.scrollable-container {
+  color: #000000;
+  width: 100%;
+  height: 100%;
+  max-width: 600px;  
+  border: 0px solid #ccc;
+  padding: 10px;
+  overflow-y: scroll;
+  background-color: #f9f9f9;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+}
+

@@ -1,0 +1,18 @@
+:root {
+  --main-color: #000000;
+  --toolbar-icon-bg-color: #000000;
+  --field-color: #000000;
+  --separator-color: #ff8800;
+  --toolbar-border-color: #000000;
+  --field-border-color: #ffffff;
+  --toolbar-bg-color: #a3a1a198; /* the main */
+  --body-bg-color: rgba(241, 241, 241, 0.603);
+  --button-hover-color: #00000088;
+  --toolbar-icon-hover-bg-color:  rgba(241, 241, 241, 0.562);
+  --toggled-btn-color: #a1a19f;
+  --toggled-btn-bg-color: rgb(99, 98, 98);
+  --toggled-hover-active-btn-color: #fa0000;
+  --doorhanger-hover-bg-color: rgba(0, 0, 0, 0.267);
+  --doorhanger-hover-color: #0505053a;
+  --dropdown-btn-bg-color: #ffffff;
+}

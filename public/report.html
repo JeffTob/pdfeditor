@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Flash PDF Editor</title>  
+  <script src="https://printjs-4de6.kxcdn.com/print.min.js"></script>    
+  <script type="module" src="https://cdn.skypack.dev/pdfjs-viewer-element"></script>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>    
+    <div id="sidebar">
+        <div class="title-bar">
+            <div class="title-bar-black">Flash PDF 360</div>        
+        </div>
+        <hr>
+        <div id="file_upload_controls">           
+            <input type="file" id="pdfFileInput" accept=".pdf" style="display: none;" onchange="uploadPDF()">             
+            <button class="button" onclick="document.getElementById('pdfFileInput').click()">Upload PDF</button> 
+            <button class="button" id="aiSummarizerButton">AI Summarizer</button>           
+            <button class="button" id="aiChatButton">AI Chat</button>            
+        </div>            
+        <div class="sidebar-footer">     
+            <!--<div class="logout-button">
+                <button class="button" id="printReport">Save</button>
+            </div>   -->             
+            <div class="logout-button">
+                <button class="button" onclick="window.location.href='/logout'">Logout</button>
+            </div>
+            © Developed by Jeferson Tobias<br> 
+            All Rights Reserved
+        </div> 
+    </div>       
+    <!-- PDF Viewer Element -->
+    <div id="viewer_container">                   
+       <pdfjs-viewer-element id="report_viewer_element" viewer-path="/pdfjs-4.6.82-dist"      
+       viewer-extra-styles="#secondaryOpenFile  { display: none }"
+       viewer-extra-styles-urls="['/css/viewer-custom-theme.css']" style="height: 100vh;"></pdfjs-viewer-element>       
+    </div>
+    <!-- AI Summarizer Containers -->
+    <div id="viewer_container-ai" class="viewer_container-ai">
+        <div class="title-bar-ai">
+          <h2 style="padding-left: 10px;">AI Summarizer </h2>
+        </div>
+        <div class="scrollable-container">
+          <p>(Unauthorized)</p>
+        </div>
+        <div class="sidebar-footer-ai">                
+            <span><b>Powered by Google Gemini</b></span>                
+        </div> 
+    </div>
+    <!-- AI Chat Container -->
+    <div id="viewer_container-aiChat" class="viewer_container-ai">
+        <div class="title-bar-ai">
+          <h2 style="padding-left: 10px;">AI Chat</h2>
+        </div>
+        <div class="scrollable-container">
+          <p>(Unauthorized)</p>
+        </div>
+        <div class="sidebar-footer-ai">                
+            <span><b>Powered by Google Gemini</b></span>                
+        </div> 
+    </div>
+    <div id="loadingModal" class="dialog-modal" style="display: none;">
+        <div class="dialog-modal-content">
+            <h2>Building Report...</h2>
+            <p>Please wait while the file is being uploaded and processed.</p>
+        </div>
+    </div>     
+    <script src="/js/script.js"></script>    
+</body>
+</html>

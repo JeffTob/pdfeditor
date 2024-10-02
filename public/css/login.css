@@ -1,0 +1,123 @@
+html{
+    /* background-color: #09778b;*/
+    background-image: url('/image/backgroudimage5.jpg'); /* Replace 'your-image-url.jpg' with your actual image URL */
+    background-size: cover; /* Cover the entire page */
+    /*background-position: center; /* Center the background image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+     
+ }
+ body {    
+     display: flex;
+     flex-direction: column;
+     justify-content: center;
+     align-items: center;
+     height: 100vh;
+     margin: 0;  
+     background-color: rgba(0, 0, 0, 0.6); /* Slightly transparent white background for the box */
+     font-family: Arial, sans-serif;
+     color: #333; /* Set a default text color for better visibility */   
+ }
+ 
+ body h1  {    
+     display: flex;
+     flex-direction: column;
+     justify-content: center;
+     align-items: center;    
+     margin: 0;  
+     padding-bottom: 20px;
+     /*background-color: rgba(0, 0, 0, 0.5); /* Slightly transparent white background for the box */
+     font-family: Arial, sans-serif;
+     color: #ffffff !important; /* Set a default text color for better visibility */   
+ }
+ 
+ .login-box {
+     width: 300px;
+     padding: 20px;
+     box-shadow: 0 0 20px rgba(0,0,0,0.5);
+     background: rgba(255, 255, 255, 0.8); /* Slightly transparent white background for the box */
+     border-radius: 8px;    
+ }
+ 
+ .login-box h2 {
+     text-align: center;
+     margin-bottom: 20px;
+ }
+ 
+ .login-box form {
+     display: flex;
+     flex-direction: column;
+     
+ }
+ 
+ .login-box input[type="text"],
+ .login-box input[type="password"] {
+     padding: 10px;
+     margin-bottom: 10px;
+     border: 1px solid #ccc;
+     border-radius: 4px;
+ }
+ 
+ .login-box button {
+     padding: 10px;
+     background-color: #ff8800;
+     color: white;
+     border: none;
+     border-radius: 4px;
+     cursor: pointer;
+     margin-top: 10px;
+ }
+ 
+ .login-box button:hover {
+     background-color: #e4e294; /* Darker blue on hover */
+     color: black;
+ }
+ 
+ .log-tag{
+     color : #e4e294;
+ }
+ 
+ #message {
+     color: red;
+     text-align: center;
+     margin-top: 10px;
+ }
+ 
+ h1 {
+     display: inline-block; /* Or flex, depending on layout needs */
+     width: 100%;
+     text-align: center;
+ }
+ 
+ h1 mark {
+     display: inline; /* Ensures it does not break the line */
+     padding-top: 5px;
+     padding-bottom: 5px;
+     padding-left: 20px;
+     padding-right: 20px;
+     background-color: #ff8800;
+     border-radius: 5px; /* Rounded corners */     
+ }
+
+ #pdf-editor-descr {
+    color: white; /* Text color */
+    background-color: transparent; /* Transparent background */
+    /*opacity: 0.5; /* Semi-transparent background */
+    text-align: center; /* Center align the text */    
+    padding: 5px;
+    font-size: 12pt;
+}
+
+ #pdf-editor-info {
+    color: white; /* Text color */
+    background-color: transparent; /* Transparent background */
+    /*opacity: 0.5; /* Semi-transparent background */
+    text-align: center; /* Center align the text */    
+    padding: 10px;
+    font-size: 14pt;
+}
+ 
+/* Style for the "for free!" text */
+#pdf-editor-info .highlight {
+    font-weight: bold;
+    font-size: 1.2em; /* Adjust size as needed */
+}
